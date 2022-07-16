@@ -11,7 +11,6 @@ const {
     erc20ABI, 
     factoryABI, 
     routerABI, 
-    pairABI 
 } = require("./ABIList");
 
 const directTrade = addressesRoute.length==0; 
@@ -25,18 +24,27 @@ const contractFactory = new ethers.Contract(addressFactory, factoryABI, provider
 const contractRouter = new ethers.Contract(addressRouter, routerABI, provider);
 const contractTokenIn = new ethers.Contract(addressFrom, erc20ABI, provider);
 const contractTokenOut = new ethers.Contract(addressTo,erc20ABI,provider);
-
-//getPrices 
-const getPrices = async (amountInH) => {
+//Get amountIn
+const getAmountIn = async () => {
     //Format amountIn
     const decimalsIn = await contractTokenIn.decimals();
     const amountIn = ethers.utils.parseUnits(amountInH,decimalsIn).toString();
+    return amountIn;
+};
+//getPrices 
+const getAmountOut = async (amountInH) => {
+    const amountIn = await getAmountIn();
     //Get amountOut
     const amountOut = directTrade ? await contractRouter.getAmountsOut(amountInH, [addressFrom,addressTo]) : await contractRouter.getAmountsOut(amountIn, [addressFrom,addressesRoute[0],addressTo]);
     const decimalsOut = await contractTokenOut.decimals();
     const amountOutH = directTrade ? amountOut[1] : ethers.utils.formatUnits(amountOut[addressesRoute.length+1],decimalsOut);
-    console.log(amountOutH.toString());
+    return amountOutH;
 }
 
 const amountInH = "500"; //Must be a string
-getPrices(amountInH);
+getAmountOut(amountInH);
+
+module.exports = {
+    getAmountIn,
+    getAmountOut
+}

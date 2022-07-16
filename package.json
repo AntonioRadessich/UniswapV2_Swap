@@ -1,0 +1,23 @@
+{
+  "name": "uniswapv2_swap",
+  "version": "1.0.0",
+  "description": "A basic bot to operate swaps on dexes forked from uniswap v2",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AntonioRadessich/UniswapV2_Swap.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AntonioRadessich/UniswapV2_Swap/issues"
+  },
+  "homepage": "https://github.com/AntonioRadessich/UniswapV2_Swap#readme",
+  "dependencies": {
+    "ethers": "^5.6.9"
+  }
+}
